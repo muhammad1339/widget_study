@@ -21,6 +21,7 @@ class _CustomWidgetScreenState extends State<CustomWidgetScreen> {
   @override
   void dispose() {
     _counter.dispose();
+    CustomListItem._buildCounts.clear(); // Reset stats on exit
     super.dispose();
   }
 
@@ -86,12 +87,19 @@ class _ConstantListView extends StatelessWidget {
 // Even without const, Flutter can determine if the parameters changed.
 class CustomListItem extends StatelessWidget {
   final int index;
+  // Static map to track build counts for demo purposes
+  static final Map<int, int> _buildCounts = {};
 
   const CustomListItem({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
     debugPrint('Building Custom Widget Item $index');
+
+    // Increment build count
+    _buildCounts[index] = (_buildCounts[index] ?? 0) + 1;
+    final count = _buildCounts[index];
+
     // Random color to visualize potential rebuilds.
     // If this widget was NOT const, it might rebuild.
     // But since it is const and the parent uses it as const, this build method WON'T run again,
@@ -104,7 +112,7 @@ class CustomListItem extends StatelessWidget {
       child: ListTile(
         leading: CircleAvatar(child: Text('$index')),
         title: Text('Item $index'),
-        subtitle: const Text('I am efficient! (My color stays static)'),
+        subtitle: Text('Builds: $count\n(I stays at 1 because I am const!)'),
       ),
     );
   }

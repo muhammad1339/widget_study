@@ -17,6 +17,12 @@ class _HelperMethodScreenState extends State<HelperMethodScreen> {
   }
 
   @override
+  void dispose() {
+    _buildCounts.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Helper Method Demo'), backgroundColor: Theme.of(context).colorScheme.inversePrimary),
@@ -50,11 +56,19 @@ class _HelperMethodScreenState extends State<HelperMethodScreen> {
     );
   }
 
+  // Static map to track build counts for demo purposes
+  static final Map<int, int> _buildCounts = {};
+
   // HELPER METHOD
   // This method is called every time _HelperMethodScreenState.build is called.
   // There is no way for Flutter to optimize this out because it's just a function execution.
   Widget _buildListItem(int index) {
     debugPrint('Building Helper Method Item $index');
+
+    // Increment build count
+    _buildCounts[index] = (_buildCounts[index] ?? 0) + 1;
+    final count = _buildCounts[index];
+
     // Better implementation for "Flashing":
     // Just simple Random(). But let's use a simple distinct color generator for clarity?
     // No, pure random is best for "flashing".
@@ -66,7 +80,7 @@ class _HelperMethodScreenState extends State<HelperMethodScreen> {
       child: ListTile(
         leading: CircleAvatar(child: Text('$index')),
         title: Text('Item $index'),
-        subtitle: const Text('I rebuild (and change color) whenever the parent rebuilds!'),
+        subtitle: Text('Builds: $count\n(I rebuild every time parent updates)'),
       ),
     );
   }
