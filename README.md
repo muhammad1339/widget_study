@@ -35,8 +35,8 @@ When `ParentWidget` rebuilds, `_buildHelper()` IS CALLED again.
 
 ```mermaid
 graph TD
-    Parent[Parent Widget] -->|calls| Method[_buildHelper()]
-    Method -->|returns| Child[Child Widget]
+    Parent[Parent Widget] -->|calls| Method["_buildHelper()"]
+    Method -->|returns| Child["Child Widget"]
     
     style Method fill:#ffcccc,stroke:#333
 ```
@@ -47,8 +47,8 @@ When `ParentWidget` rebuilds, `CustomWidget` MIGHT NOT rebuild.
 
 ```mermaid
 graph TD
-    Parent[Parent Widget] -->|contains| Custom[Custom Widget]
-    Custom -->|builds| Child[Child Widget]
+    Parent[Parent Widget] -->|contains| Custom["Custom Widget"]
+    Custom -->|builds| Child["Child Widget"]
     
     style Custom fill:#ccffcc,stroke:#333
 ```
