@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'context_access_screen.dart';
 import 'custom_widget_screen.dart';
 import 'helper_method_screen.dart';
 import 'under_the_hood_screen.dart';
@@ -58,6 +60,13 @@ class MyHomePage extends StatelessWidget {
               },
               icon: const Icon(Icons.build_circle_outlined),
               label: const Text('Under The Hood Demo'),
+            ),
+            const SizedBox(height: 10),
+            FilledButton.tonal(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ContextAccessScreen()));
+              },
+              child: const Text('Context Access Demo'),
             ),
           ],
         ),

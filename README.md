@@ -25,9 +25,31 @@ When splitting up large build methods, developers often choose between extractin
   - Has its own `BuildContext`.
   - Better for "separation of concerns" and testing.
 
+  - Has its own `BuildContext`.
+  - Better for "separation of concerns" and testing.
+
 ---
 
-## 2. Visualizing the Difference
+## 2. Context Access (The "BuildContext" Trap)
+
+One of the most common issues with Helper Methods is how they handle `BuildContext`.
+
+### Helper Methods
+
+- Use the **Parent's Context**.
+- If you define a `Theme` or `Provider` inside the `build()` method, the helper method **CANNOT SEE IT** because it uses the context from *before* that definition.
+
+### Custom Widgets
+
+- Have their **Own Context**.
+- They are children of the `Theme` or `Provider`.
+- They **CAN SEE IT** correctly.
+
+> **Rule of Thumb**: If you need to use `Theme.of(context)` or look up an inherited widget that you just defined, use a Custom Widget (or a Builder).
+
+---
+
+## 3. Visualizing the Difference
 
 ### Helper Method Structure
 
