@@ -122,6 +122,53 @@ class MyIcon extends StatelessWidget {
 }
 ```
 
+### The Technical Reason (The "Why")
+
+In Flutter, **`BuildContext` is just a handle to an Element**. When you call `Theme.of(context)`, Flutter starts looking **UP** the Element Tree from that specific context.
+
+1. **Parent Widget** (Element A) <--- *The context you have in `build()`*
+2. `↓`
+3. **Theme Widget** (Element B) <--- *Defined inside `build()`*
+4. `↓`
+5. **Helper Method** uses "Element A".
+    * It looks up from A. It **cannot see** B because B is its child, not its ancestor.
+6. **Custom Widget** creates "Element C".
+    * It looks up from C. It **sees** B immediately.
+
+### Visualization
+
+```mermaid
+graph TD
+    A[Parent Widget <br> (Element A)]
+    B[Theme <br> (Element B - Green)]
+    C[Custom Widget <br> (Element C)]
+
+    A --> B
+    B --> C
+
+    linkStyle 0 stroke-width:4px,fill:none,stroke:red;
+    linkStyle 1 stroke-width:4px,fill:none,stroke:green;
+```
+
+* **Helper Method**: Stand at **A**. Look up. You see the App Root. You *don't* see **B** below you.
+* **Custom Widget**: Stand at **C**. Look up. You hit **B** (Green Theme) immediately.
+
+### ✅ The "Builder" Solution
+
+If you don't want to create a new class, you can use a `Builder` widget. It creates a new Element (and thus a new Context) inline.
+
+```dart
+Theme(
+  data: greenTheme,
+  child: Builder(
+    builder: (newContext) {
+      // ✅ SUCCESS: newContext is a child of Theme
+      return _buildHelper(newContext); 
+    }
+  ),
+);
+```
+
 ---
 
 ## 4. Lifecycle & State

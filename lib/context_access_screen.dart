@@ -43,6 +43,36 @@ class ContextAccessScreen extends StatelessWidget {
                   // This widget is a child of the Theme.
                   // Its internal build method will look up the tree and find the Green Theme.
                   const CustomContextWidget(),
+
+                  const SizedBox(height: 20),
+
+                  // 3. BUILDER WIDGET (The Inline Fix)
+                  // Creates a new context inline, allowing us to see the parent Theme
+                  Builder(
+                    builder: (newContext) {
+                      final color = Theme.of(newContext).iconTheme.color;
+                      return Card(
+                        margin: const EdgeInsets.all(16.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              const Text('Builder Widget'),
+                              const SizedBox(height: 8),
+                              Icon(Icons.construction, color: color),
+                              const SizedBox(height: 4),
+                              const Text(
+                                'I create a new context inline,\nso I ALSO see the Green Theme!',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
