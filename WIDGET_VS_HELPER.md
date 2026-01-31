@@ -139,9 +139,9 @@ In Flutter, **`BuildContext` is just a handle to an Element**. When you call `Th
 
 ```mermaid
 graph TD
-    A[Parent Widget <br> (Element A)]
-    B[Theme <br> (Element B - Green)]
-    C[Custom Widget <br> (Element C)]
+    A["Parent Widget <br> (Element A)"]
+    B["Theme <br> (Element B - Green)"]
+    C["Custom Widget <br> (Element C)"]
 
     A --> B
     B --> C
