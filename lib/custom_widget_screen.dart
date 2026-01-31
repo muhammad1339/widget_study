@@ -8,19 +8,19 @@ class CustomWidgetScreen extends StatefulWidget {
 }
 
 class _CustomWidgetScreenState extends State<CustomWidgetScreen> {
-  // OPTIMIZATION: Use ValueNotifier
-  // Instead of calling setState() which rebuilds the WHOLE build method (Scaffold, etc.),
-  // we trigger listeners only on this notifier.
-  final ValueNotifier<int> _counter = ValueNotifier<int>(0);
+  // Using standard setState to match the HelperMethodScreen.
+  // This demonstrates that EVEN IF the parent rebuilds, the child custom widgets
+  // can skip rebuilding if they are const.
+  int _counter = 0;
 
   void _incrementCounter() {
-    // No setState() here!
-    _counter.value++;
+    setState(() {
+      _counter++;
+    });
   }
 
   @override
   void dispose() {
-    _counter.dispose();
     CustomListItem._buildCounts.clear(); // Reset stats on exit
     super.dispose();
   }
@@ -37,22 +37,13 @@ class _CustomWidgetScreenState extends State<CustomWidgetScreen> {
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                'Now using ValueNotifier!\n'
-                'When you tap FAB, setState is NOT called.\n'
-                'Only the Text widget below rebuilds.',
+                'Using standard setState()!\n'
+                'The Scaffold rebuilds on every tap.\n'
+                'BUT, observe the items below.',
                 textAlign: TextAlign.center,
               ),
             ),
-            // OPTIMIZATION: ValueListenableBuilder
-            // Only the builder function runs when _counter changes.
-            // The surrounding Scaffold, Column, etc. do NOT rebuild.
-            ValueListenableBuilder<int>(
-              valueListenable: _counter,
-              builder: (context, value, child) {
-                debugPrint('Building Counter Text: $value');
-                return Text('Counter: $value', style: Theme.of(context).textTheme.headlineMedium);
-              },
-            ),
+            Text('Counter: $_counter', style: Theme.of(context).textTheme.headlineMedium),
             const SizedBox(height: 20),
             // Still using our const list wrapper
             const Expanded(child: _ConstantListView()),

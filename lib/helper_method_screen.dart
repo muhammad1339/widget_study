@@ -41,18 +41,22 @@ class _HelperMethodScreenState extends State<HelperMethodScreen> {
             ),
             Text('Counter: $_counter', style: Theme.of(context).textTheme.headlineMedium),
             const SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 50,
-                itemBuilder: (context, index) {
-                  return _buildListItem(index);
-                },
-              ),
-            ),
+            _buildListView(),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(onPressed: _incrementCounter, tooltip: 'Increment', child: const Icon(Icons.add)),
+    );
+  }
+
+  Widget _buildListView() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: 50,
+        itemBuilder: (context, index) {
+          return _buildListItem(index);
+        },
+      ),
     );
   }
 
@@ -72,7 +76,7 @@ class _HelperMethodScreenState extends State<HelperMethodScreen> {
     // Better implementation for "Flashing":
     // Just simple Random(). But let's use a simple distinct color generator for clarity?
     // No, pure random is best for "flashing".
-    final randomColor = Colors.primaries[DateTime.now().microsecondsSinceEpoch % Colors.primaries.length].withOpacity(0.2);
+    final randomColor = Colors.primaries[DateTime.now().microsecondsSinceEpoch % Colors.accents.length].withValues(alpha: 0.2);
 
     return Card(
       color: randomColor,

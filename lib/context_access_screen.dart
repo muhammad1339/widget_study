@@ -56,12 +56,14 @@ class ContextAccessScreen extends StatelessWidget {
   Widget _buildHelperWidget(BuildContext context) {
     // This context comes from the parent's build method (ABOVE the green theme).
     // So looking up Theme.of(context) finds the default app theme (Purple), not Green.
-    final color = Theme.of(context).iconTheme.color ?? Colors.black;
+    final color = Theme.of(context).iconTheme.color;
 
     return Card(
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text('Helper Method'),
             const SizedBox(height: 8),
@@ -87,9 +89,11 @@ class CustomContextWidget extends StatelessWidget {
     final color = Theme.of(context).iconTheme.color;
 
     return Card(
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text('Custom Widget'),
             const SizedBox(height: 8),
